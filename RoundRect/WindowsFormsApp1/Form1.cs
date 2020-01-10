@@ -24,14 +24,14 @@ namespace WindowsFormsApp1
             try
             {
                 Point p = new Point(
-    Convert.ToInt32(this.txtX.Text),
-    Convert.ToInt32(this.txtY.Text)
-    );
+                    Convert.ToInt32(this.txtX.Text),
+                    Convert.ToInt32(this.txtY.Text));
                 this.lstPoints.Add(p);
                 this.listBox1.Items.Add(p);
                 if (this.lstPoints.Count == 4)
                 {
-                    foreach (PointF pf in Calculator.CalcRectRoundingPoints(this.lstPoints.ToArray()))
+                    foreach (PointF pf in Calculator.CalcRectRoundingPoints(
+                        this.lstPoints.ToArray()))
                     {
                         this.listBox2.Items.Add(pf);
                     }
