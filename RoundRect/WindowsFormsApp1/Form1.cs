@@ -46,6 +46,7 @@ namespace WindowsFormsApp1
 
         private void button2_Click(object sender, EventArgs e)
         {
+            this.lstPoints.Clear();
             this.listBox1.Items.Clear();
             this.listBox2.Items.Clear();
         }
