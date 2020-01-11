@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,7 @@ namespace WindowsFormsApp1
     public partial class Form1 : Form
     {
         private List<Point> lstPoints = new List<Point>();
+        private Point ps;
         public Form1()
         {
             InitializeComponent();
@@ -26,16 +28,36 @@ namespace WindowsFormsApp1
                 Point p = new Point(
                     Convert.ToInt32(this.txtX.Text),
                     Convert.ToInt32(this.txtY.Text));
+
+                if (this.lstPoints.Count >= 4)
+                {
+                    this.txtMsg.Text = "只能添加4个点，如果要重复测试请先点clear";
+                    return;
+                }
+
+
                 this.lstPoints.Add(p);
                 this.listBox1.Items.Add(p);
-                if (this.lstPoints.Count == 4)
+                switch (this.lstPoints.Count)
                 {
-                    foreach (PointF pf in Calculator.CalcRectRoundingPoints(
-                        this.lstPoints.ToArray()))
-                    {
-                        this.listBox2.Items.Add(pf);
-                    }
+                    case 1:
+                        this.ps = p;
+                        break;
+                    case 2:
+                        this.CalcOneOuterPointF(p);
+                        break;
+                    case 3:
+                        this.CalcOneOuterPointF(p);
+                        break;
+                    case 4:
+                        this.CalcOneOuterPointF(p);
+                        this.CalcOneOuterPointF(this.lstPoints[0]);
+
+                        break;
+                    default:
+                        break;
                 }
+
             }
             catch (Exception ex)
             {
@@ -44,11 +66,17 @@ namespace WindowsFormsApp1
 
         }
 
+        private void CalcOneOuterPointF(Point pe)
+        {
+            this.listBox2.Items.Add(Calculator.CalcOutPointOf2(ps, pe));
+            this.ps = pe;
+        }
         private void button2_Click(object sender, EventArgs e)
         {
             this.lstPoints.Clear();
             this.listBox1.Items.Clear();
             this.listBox2.Items.Clear();
+            this.txtMsg.Clear();
         }
     }
 }
